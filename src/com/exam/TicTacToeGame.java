@@ -18,11 +18,31 @@ public class TicTacToeGame {
 		else
 			computer = 'X';
 		showBoard(board);
-		boolean turn = toss();
-		if (turn) {
-			selectIndexToMove();
-			showBoard(board);
+		int turn = toss();
+		boolean win = false;
+		for (int i = 1; i <= 9; i++) {
+			if (turn == 1) {
+				selectIndexToMove(player);
+				showBoard(board);
+				win = winState();
+				if (win) {
+					System.out.println("Player won the game");
+					break;
+				}
+				turn = 0;
+			} else {
+				selectIndexToMove(computer);
+				showBoard(board);
+				win = winState();
+				if (win) {
+					System.out.println("Computer won the game");
+					break;
+				}
+				turn = 1;
+			}
 		}
+		if (!win)
+			System.out.println("Tie Game");
 
 	}
 
@@ -49,45 +69,61 @@ public class TicTacToeGame {
 				System.out.println(" \n---------");
 			}
 		}
+		System.out.println("\n");
 	}
 
-	public static void selectIndexToMove() {
+	public static void selectIndexToMove(char nextTurn) {
 		System.out.println("\nEnter index where you want to move: ");
 		int index = sc.nextInt();
 		if (index <= 9 && index >= 1) {
 			if (board[index] == ' ') {
 				System.out.println("Position " + index + " is free");
-				makeMove(index);
+				makeMove(index, nextTurn);
 			} else {
 				System.out.println("Position already taken, choose new position");
-				selectIndexToMove();
+				selectIndexToMove(nextTurn);
 			}
 
 		} else {
 			System.out.println("Invalid input, enter again");
-			selectIndexToMove();
+			selectIndexToMove(nextTurn);
 		}
 	}
 
-	public static void makeMove(int index) {
+	public static void makeMove(int index, char nextTurn) {
 		System.out.println("Make this move? Y/N");
 		char confirm = sc.next().charAt(0);
 		if (confirm == 'Y') {
-			board[index] = player;
+			board[index] = nextTurn;
 		} else {
-			selectIndexToMove();
+			selectIndexToMove(nextTurn);
 		}
 	}
 
-	public static boolean toss() {
+	public static int toss() {
 		int randomNumber = (int) (Math.random() * 2);
 		if (randomNumber == 0) {
-			System.out.println("\nComputer will start the game");
-			return false;
+			System.out.println("Computer will start the game");
+			return randomNumber;
 		} else {
-			System.out.println("\nUser will start the game");
-			return true;
+			System.out.println("User will start the game");
+			return randomNumber;
 		}
+	}
+
+	public static boolean winState() {
+		if (((board[1] == board[2] && board[1] == board[3]) && board[1] != ' ')
+				|| ((board[4] == board[5] && board[4] == board[6]) && board[4] != ' ')
+				|| ((board[7] == board[8] && board[7] == board[9]) && board[7] != ' ')
+				|| ((board[1] == board[4] && board[1] == board[7]) && board[1] != ' ')
+				|| ((board[2] == board[5] && board[2] == board[8]) && board[2] != ' ')
+				|| ((board[3] == board[6] && board[3] == board[9]) && board[3] != ' ')
+				|| ((board[1] == board[5] && board[1] == board[9]) && board[1] != ' ')
+				|| ((board[3] == board[5] && board[3] == board[7]) && board[3] != ' '))
+
+			return true;
+		else
+			return false;
 	}
 
 }
