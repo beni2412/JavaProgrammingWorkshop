@@ -3,14 +3,12 @@ package com.exam;
 import java.util.Scanner;
 
 public class TicTacToeGame {
-
 	public static char[] board;
 	public static char player;
 	public static char computer;
 	public static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-
 		System.out.println("Welcome to Tic Tac Toe");
 		board = creatingBoard();
 		player = chooseLetter();
@@ -19,7 +17,6 @@ public class TicTacToeGame {
 			computer = 'O';
 		else
 			computer = 'X';
-
 		showBoard(board);
 		int turn = toss();
 		boolean win = false;
@@ -147,6 +144,10 @@ public class TicTacToeGame {
 		}
 
 		if (!moved) {
+			moved = cornerMove();
+		}
+
+		if (!moved) {
 			for (int i = 1; i < board.length; i++) {
 				if (board[i] == ' ') {
 					board[i] = computer;
@@ -171,6 +172,21 @@ public class TicTacToeGame {
 				}
 
 			}
+		}
+		return moved;
+	}
+
+	public static boolean cornerMove() {
+		boolean moved = false;
+		int[] corners = { 1, 3, 7, 9 };
+		for (int i = 0; i < corners.length; i++) {
+			int corner = corners[i];
+			if (board[corner] == ' ') {
+				board[corner] = computer;
+				moved = true;
+				break;
+			}
+
 		}
 		return moved;
 	}
