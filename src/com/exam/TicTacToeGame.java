@@ -18,8 +18,12 @@ public class TicTacToeGame {
 		else
 			computer = 'X';
 		showBoard(board);
-		selectIndexToMove();
-		showBoard(board);
+		boolean turn = toss();
+		if (turn) {
+			selectIndexToMove();
+			showBoard(board);
+		}
+
 	}
 
 	public static char[] creatingBoard() {
@@ -74,4 +78,16 @@ public class TicTacToeGame {
 			selectIndexToMove();
 		}
 	}
+
+	public static boolean toss() {
+		int randomNumber = (int) (Math.random() * 2);
+		if (randomNumber == 0) {
+			System.out.println("\nComputer will start the game");
+			return false;
+		} else {
+			System.out.println("\nUser will start the game");
+			return true;
+		}
+	}
+
 }
