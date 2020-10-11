@@ -3,11 +3,12 @@ package com.exam;
 import java.util.Scanner;
 
 public class TicTacToeGame {
+	public static char[] board;
 	public static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		System.out.println("Welcome to Tic Tac Toe");
-		char[] board = creatingBoard();
+		board = creatingBoard();
 		char player = chooseLetter();
 		char computer = ' ';
 		if (player == 'X')
@@ -15,6 +16,7 @@ public class TicTacToeGame {
 		else
 			computer = 'X';
 		showBoard(board);
+		selectIndexToMove();
 	}
 
 	public static char[] creatingBoard() {
@@ -41,4 +43,22 @@ public class TicTacToeGame {
 			}
 		}
 	}
+
+	public static void selectIndexToMove() {
+		System.out.println("\nEnter index where you want to move: ");
+		int index = sc.nextInt();
+		if (index <= 9 && index >= 1) {
+			if (board[index] == ' ') {
+				System.out.println("Position is free");
+			} else {
+				System.out.println("Position already taken, choose new position");
+				selectIndexToMove();
+			}
+
+		} else {
+			System.out.println("Invalid input, enter again");
+			selectIndexToMove();
+		}
+	}
+
 }
